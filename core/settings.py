@@ -4,10 +4,10 @@ from pathlib import Path
 import cloudinary
 from decouple import config
 
-cloudinary.config( 
-  cloud_name = config('CLOUDINARY_CLOUD_NAME'),
-  api_key = config('CLOUDINARY_API_KEY'), 
-  api_secret = config('CLOUDINARY_API_SECRET') 
+cloudinary.config(
+    cloud_name=config("CLOUDINARY_CLOUD_NAME"),
+    api_key=config("CLOUDINARY_API_KEY"),
+    api_secret=config("CLOUDINARY_API_SECRET"),
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,6 +25,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["web-production-df1a.up.railway.app"]
 
+CSRF_TRUSTED_ORIGINS = ["https://web-production-df1a.up.railway.app"]
 
 # Application definition
 
@@ -40,7 +41,6 @@ INSTALLED_APPS = [
     "users",
     "inventory",
     "webhooks",
-
     # Third Party Apps
     "rest_framework",
     "rest_framework.authtoken",
@@ -64,7 +64,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "web-production-df1a.up.railway.app",
+    "https://web-production-df1a.up.railway.app",
 ]
 
 CORS_ALLOW_HEADERS = [
@@ -85,7 +85,6 @@ CORS_ALLOW_METHODS = [
     "GET",
     "DELETE",
 ]
-
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -160,7 +159,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR/ "static"]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
@@ -177,10 +176,8 @@ REST_FRAMEWORK = {
     #     "rest_framework.authentication.SessionAuthentication",
     #     "rest_framework.authentication.TokenAuthentication",
     # ],
-
     # "DEFAULT_PERMISSION_CLASSES": [
     #     "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     # ],
-
     "NON_FIELD_ERRORS_KEY": "errors",
 }
