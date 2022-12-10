@@ -1,0 +1,121 @@
+# from rest_framework.authentication import TokenAuthentication
+from django.contrib.auth import authenticate
+from rest_framework import generics, status
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view
+from rest_framework.request import Request
+from rest_framework.response import Response
+
+from .models import User
+from .serializers import CreateUserSerializer, VerifyUserSerializer
+
+
+class CreateUserAPIView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = CreateUserSerializer
+
+    def create(self, request: Request):
+        data = request.data
+        serializer = self.serializer_class(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            response = {
+                "message": "User Created Successfully",
+                "user_data": serializer.data,
+            }
+
+            return Response(data=response, status=status.HTTP_201_CREATED)
+
+        return Response(
+            data=serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE
+        )
+
+
+class LoginUserAPIView(generics.GenericAPIView):
+    queryset = User.objects.all()
+    serializer_class = CreateUserSerializer
+
+    def post(self, request: Request):
+        email = request.data.get("email")
+        password = request.data.get("password")
+
+        user = authenticate(email=email, password=password)
+
+        if user is not None:
+            if Token.objects.filter(user=user).exists():
+                response = {
+                    "message": "Login Successful",
+                    "token": user.auth_token.key,
+                }
+                return Response(data=response, status=status.HTTP_200_OK)
+            else:
+                return Response(
+                    data={
+                        "error": "Admin User is not allowed to login here. Use the backend."
+                    },
+                    status=status.HTTP_406_NOT_ACCEPTABLE,
+                )
+
+        return Response(
+            data={"error": "Invalid email or password"},
+            status=status.HTTP_406_NOT_ACCEPTABLE,
+        )
+
+    def get(self, request: Request):
+        content = {"user": str(request.user), "auth": str(request.auth)}
+
+        return Response(data=content, status=status.HTTP_200_OK)
+
+
+class DeleteUserAPIView(generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = CreateUserSerializer
+    lookup_field = "id"
+    # permission_classes = [permissions.IsAdminUser]
+
+    def delete(self, request, *args, **kwargs):
+        print("Onimisea's token ", request.user)
+
+        return self.destroy(request, *args, **kwargs)
+
+    Response(
+        {"message": "User Deleted Successfully"}, status=status.HTTP_201_CREATED
+    )
+
+
+class UserListCreateAPIView(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = CreateUserSerializer
+
+
+class UserDetailAPIView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = CreateUserSerializer
+    lookup_field = "id"
+
+
+class VerifyUserAPIView(generics.GenericAPIView):
+    queryset = User.objects.all()
+    serializer_class = VerifyUserSerializer
+
+    def post(self, request: Request):
+        email = request.data.get("email")
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response(
+                data={"error": "User Not Found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if user:
+            response = {
+                "fullname": user.fullname,
+                "email": user.email,
+                "phone": user.phone,
+            }
+
+            return Response(data=response, status=status.HTTP_200_OK)
