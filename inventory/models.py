@@ -166,13 +166,13 @@ class LowerSubcategory(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("model_detail", kwargs={"slug": self.subcategory + self.slug})
+        return reverse("model_detail", kwargs={"slug": self.slug})
 
     def save(self, *args, **kwargs):
         to_assign = slugify(self.name)
 
         if LowerSubcategory.objects.filter(slug=to_assign).exists():
-            to_assign = str(self.subcategory) + to_assign
+            to_assign = str(self.subcategory.slug) + to_assign
 
         self.slug = to_assign
 
