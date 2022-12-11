@@ -114,7 +114,7 @@ class Subcategory(models.Model):
 
     def save(self, *args, **kwargs):
         to_assign = slugify(self.name)
-        to_assign = self.category.slug + "-" + to_assign
+        to_assign = str(self.category.slug) + "-" + to_assign
         self.slug = to_assign
 
         super().save(*args, **kwargs)
