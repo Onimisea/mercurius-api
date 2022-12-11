@@ -3,6 +3,7 @@ from rest_framework import serializers
 from .models import (
     Category,
     FlashsaleCtrl,
+    LowerSubcategory,
     Media,
     Product,
     ProductAttribute,
@@ -12,6 +13,13 @@ from .models import (
     Subcategory,
 )
 
+
+class LowerSubcategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LowerSubcategory
+        fields = ["subcategory", "name", "slug"]
+
+    category = serializers.StringRelatedField()
 
 class SubcategorySerializer(serializers.ModelSerializer):
     class Meta:

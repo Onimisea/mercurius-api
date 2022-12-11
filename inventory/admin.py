@@ -9,6 +9,7 @@ from .models import (
     ProductType,
     Stock,
     Subcategory,
+    LowerSubcategory,
     FlashsaleCtrl,
 )
 
@@ -24,6 +25,11 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Subcategory)
 class SubcategoryAdmin(admin.ModelAdmin):
     list_display = ["name", "slug", "category"]
+    prepopulated_fields = {"slug": ("name",)}
+
+@admin.register(LowerSubcategory)
+class LowerSubcategoryAdmin(admin.ModelAdmin):
+    list_display = ["name", "slug", "subcategory"]
     prepopulated_fields = {"slug": ("name",)}
 
 

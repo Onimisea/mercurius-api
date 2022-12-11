@@ -31,26 +31,15 @@ class Category(models.Model):
     description = models.TextField(
         verbose_name=_("Category Description"),
         help_text=_("format: optional"),
-        null=True, blank=True,
+        null=True,
+        blank=True,
     )
 
-    category_image = CloudinaryField("Image", overwrite=True, format="jpg", folder="Category Backgrounds")
+    category_image = CloudinaryField(
+        "Image", overwrite=True, format="jpg", folder="Category Backgrounds"
+    )
 
     is_active = models.BooleanField(default=True)
-
-    meta_keywords = models.CharField(
-        max_length=255,
-        verbose_name=_("Meta Keywords"),
-        help_text=_("SEO Keywords separated by comma"),null=True,
-        blank=True,
-    )
-
-    meta_description = models.CharField(
-        max_length=255,
-        verbose_name=_("Meta Description"),
-        help_text=_("Content for description meta tag"),null=True,
-        blank=True,
-    )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -81,7 +70,8 @@ class Category(models.Model):
 class Subcategory(models.Model):
     category = models.ForeignKey(
         Category,
-        verbose_name="Main Category", related_name="subcategories",
+        verbose_name="Main Category",
+        related_name="subcategories",
         on_delete=models.PROTECT,
     )
 
@@ -106,20 +96,6 @@ class Subcategory(models.Model):
     )
 
     is_active = models.BooleanField(default=True)
-
-    meta_keywords = models.CharField(
-        max_length=255,
-        verbose_name=_("Meta Keywords"),
-        help_text=_("SEO Keywords separated by comma"),null=True,
-        blank=True,
-    )
-
-    meta_description = models.CharField(
-        max_length=255,
-        verbose_name=_("Meta Description"),
-        help_text=_("Content for description meta tag"),null=True,
-        blank=True,
-    )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -146,6 +122,63 @@ class Subcategory(models.Model):
 
         super().save(*args, **kwargs)
 
+
+class LowerSubcategory(models.Model):
+    subcategory = models.ForeignKey(
+        Subcategory,
+        verbose_name="Main Subcategory",
+        related_name="main_subcategory",
+        on_delete=models.PROTECT,
+    )
+
+    name = models.CharField(
+        max_length=100,
+        null=False,
+        unique=False,
+        blank=False,
+        verbose_name=_("Lower Subcategory Name"),
+        help_text=_("format: required, max_length=100"),
+    )
+
+    slug = models.SlugField(
+        max_length=100,
+        null=False,
+        unique=True,
+        blank=False,
+        verbose_name=_("Lower Subcategory URL"),
+        help_text=_(
+            "format: required, letters, numbers, underscore, or hyphens"
+        ),
+    )
+
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = _("Lower Subcategory")
+        verbose_name_plural = _("Lower Subcategories")
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("model_detail", kwargs={"slug": self.slug})
+
+    def save(self, *args, **kwargs):
+        to_assign = slugify(self.name)
+
+        if Subcategory.objects.filter(slug=to_assign).exists():
+            to_assign = str(self.category) + to_assign
+
+        self.slug = to_assign
+
+        super().save(*args, **kwargs)
+
+
 class ProductType(models.Model):
     name = models.CharField(
         max_length=100,
@@ -161,8 +194,12 @@ class ProductType(models.Model):
 
 
 class ProductAttribute(models.Model):
-    product_type = models.ForeignKey(ProductType, related_name="product_type_attribute", on_delete=models.PROTECT)
-    
+    product_type = models.ForeignKey(
+        ProductType,
+        related_name="product_type_attribute",
+        on_delete=models.PROTECT,
+    )
+
     name = models.CharField(
         max_length=100,
         unique=False,
@@ -177,7 +214,11 @@ class ProductAttribute(models.Model):
 
 
 class ProductAttributeValue(models.Model):
-    attribute = models.ForeignKey(ProductAttribute, related_name="product_attribute", on_delete=models.PROTECT)
+    attribute = models.ForeignKey(
+        ProductAttribute,
+        related_name="product_attribute",
+        on_delete=models.PROTECT,
+    )
 
     value = models.CharField(
         max_length=50,
@@ -186,18 +227,30 @@ class ProductAttributeValue(models.Model):
         blank=False,
         verbose_name=_("Product Type Attribute Value"),
         help_text=_("format: required, max_length-255"),
-    )   
+    )
 
     def __str__(self):
         return f"{self.value}"
 
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, verbose_name="Category", related_name="category", on_delete=models.PROTECT)
+    category = models.ForeignKey(
+        Category,
+        verbose_name="Category",
+        related_name="category",
+        on_delete=models.PROTECT,
+    )
 
-    subcategory = models.ForeignKey(Subcategory, verbose_name="Subcategory", related_name="subcategory", on_delete=models.PROTECT)
+    subcategory = models.ForeignKey(
+        Subcategory,
+        verbose_name="Subcategory",
+        related_name="subcategory",
+        on_delete=models.PROTECT,
+    )
 
-    product_type = models.ForeignKey(ProductType, related_name="product_type", on_delete=models.PROTECT)
+    product_type = models.ForeignKey(
+        ProductType, related_name="product_type", on_delete=models.PROTECT
+    )
 
     name = models.CharField(
         max_length=255,
@@ -227,7 +280,11 @@ class Product(models.Model):
         help_text=_("format: required"),
     )
 
-    attribute_value = models.ManyToManyField(ProductAttributeValue, verbose_name="Product Attribute Values", related_name="product_attribute_value",)
+    attribute_value = models.ManyToManyField(
+        ProductAttributeValue,
+        verbose_name="Product Attribute Values",
+        related_name="product_attribute_value",
+    )
 
     flashsale = models.IntegerField(
         unique=False,
@@ -235,7 +292,9 @@ class Product(models.Model):
         blank=False,
         default=0,
         verbose_name=_("Percentage Off"),
-        help_text=_("format: how many percent off the  regular price of product"),
+        help_text=_(
+            "format: how many percent off the  regular price of product"
+        ),
     )
 
     price = models.IntegerField(
@@ -254,14 +313,12 @@ class Product(models.Model):
         help_text=_("Weight in Kilogram (Kg)"),
     )
 
-       
     is_onFlashsale = models.BooleanField(
         default=False,
         verbose_name=_("Flashsale"),
         help_text=_("format: true = product is on flashsale"),
     )
 
-    
     in_stock = models.BooleanField(
         default=True,
         verbose_name=_("product availability"),
@@ -316,7 +373,7 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("model_detail", kwargs={"slug": self.slug})
-    
+
     @property
     def flashsale_price(self):
         if self.is_onFlashsale:
@@ -331,10 +388,13 @@ class Media(models.Model):
     product = models.ForeignKey(
         Product,
         on_delete=models.PROTECT,
-        verbose_name="Product Image", related_name="product_images"
+        verbose_name="Product Image",
+        related_name="product_images",
     )
 
-    product_images = CloudinaryField("Image", format="jpg", folder="Product Images")
+    product_images = CloudinaryField(
+        "Image", format="jpg", folder="Product Images"
+    )
 
     alt_text = models.CharField(
         max_length=255,
@@ -365,6 +425,7 @@ class Media(models.Model):
     def __str__(self):
         return self.product.name
 
+
 class Stock(models.Model):
     product = models.OneToOneField(
         Product,
@@ -379,7 +440,7 @@ class Stock(models.Model):
         verbose_name=_("inventory stock check date"),
         help_text=_("format: Y-m-d H:M:S, null-true, blank-true"),
     )
-    
+
     units = models.IntegerField(
         default=0,
         unique=False,
@@ -401,7 +462,6 @@ class Stock(models.Model):
     def __str__(self):
         return self.units
         # return f"{self.product.name}, Units: {self.units}, Units Sold: {self.units_sold}"
-    
 
 
 class FlashsaleCtrl(models.Model):
@@ -414,7 +474,7 @@ class FlashsaleCtrl(models.Model):
         help_text=_("format: required, max_length-100"),
     )
 
-    when =  models.DateTimeField()
+    when = models.DateTimeField()
 
     is_active = models.BooleanField(
         default=False,

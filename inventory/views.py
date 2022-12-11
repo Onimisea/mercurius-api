@@ -4,8 +4,8 @@ from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
 
-from .models import Category, Subcategory, FlashsaleCtrl, Product
-from .serializers import CategorySerializer, SubcategorySerializer, FlashsaleCtrlSerializer, ProductSerializer
+from .models import Category, Subcategory, LowerSubcategory, FlashsaleCtrl, Product
+from .serializers import CategorySerializer, SubcategorySerializer, LowerSubcategorySerializer, FlashsaleCtrlSerializer, ProductSerializer
 
 # Create your views here.
 
@@ -26,6 +26,25 @@ class AllCategoryView(ListCreateAPIView):
 class SingleCategoryView(RetrieveAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    lookup_field = 'slug'
+
+
+class AllLowerSubcategoryView(ListCreateAPIView):
+    queryset = LowerSubcategory.objects.all()
+    serializer_class = LowerSubcategorySerializer
+
+    def get(self, request, *args, **kwargs):
+        queryset = LowerSubcategory.objects.all()
+        serializer = LowerSubcategorySerializer(queryset, many=True)
+        seriData = serializer.data
+
+        response = reversed(seriData)
+        return Response(data=response, status=status.HTTP_200_OK)
+
+
+class SingleLowerSubcategoryView(RetrieveAPIView):
+    queryset = LowerSubcategory.objects.all()
+    serializer_class = LowerSubcategorySerializer
     lookup_field = 'slug'
 
 
