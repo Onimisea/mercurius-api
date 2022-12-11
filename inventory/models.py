@@ -114,10 +114,7 @@ class Subcategory(models.Model):
 
     def save(self, *args, **kwargs):
         to_assign = slugify(self.name)
-
-        if Subcategory.objects.filter(slug=to_assign).exists():
-            to_assign = str(self.category) + to_assign
-
+        to_assign = self.category.slug + "-" + to_assign
         self.slug = to_assign
 
         super().save(*args, **kwargs)
@@ -170,10 +167,7 @@ class LowerSubcategory(models.Model):
 
     def save(self, *args, **kwargs):
         to_assign = slugify(self.name)
-
-        if LowerSubcategory.objects.filter(slug=to_assign).exists():
-            to_assign = self.subcategory.slug + to_assign
-
+        to_assign = str(self.subcategory.slug) + "-" + to_assign
         self.slug = to_assign
 
         super().save(*args, **kwargs)

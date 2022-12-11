@@ -14,19 +14,19 @@ from .models import (
 )
 
 
-class LowerSubcategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = LowerSubcategory
-        fields = ["subcategory", "name", "slug"]
-
-    category = serializers.StringRelatedField()
-
 class SubcategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Subcategory
         fields = ["category", "name", "slug"]
 
     category = serializers.StringRelatedField()
+
+class LowerSubcategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LowerSubcategory
+        fields = ["subcategory", "name", "slug"]
+
+    subcategory = SubcategorySerializer(many=True)
 
 
 class CategorySerializer(serializers.ModelSerializer):
