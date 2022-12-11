@@ -87,7 +87,7 @@ class Subcategory(models.Model):
     slug = models.SlugField(
         max_length=100,
         null=False,
-        unique=True,
+        unique=False,
         blank=False,
         verbose_name=_("Subcategory URL"),
         help_text=_(
@@ -143,7 +143,7 @@ class LowerSubcategory(models.Model):
     slug = models.SlugField(
         max_length=100,
         null=False,
-        unique=True,
+        unique=False,
         blank=False,
         verbose_name=_("Lower Subcategory URL"),
         help_text=_(
@@ -172,7 +172,7 @@ class LowerSubcategory(models.Model):
         to_assign = slugify(self.name)
 
         if LowerSubcategory.objects.filter(slug=to_assign).exists():
-            to_assign = str(self.subcategory.slug) + to_assign
+            to_assign = self.subcategory.slug + to_assign
 
         self.slug = to_assign
 
