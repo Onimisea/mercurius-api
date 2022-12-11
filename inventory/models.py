@@ -171,7 +171,7 @@ class LowerSubcategory(models.Model):
     def save(self, *args, **kwargs):
         to_assign = slugify(self.name)
 
-        if Subcategory.objects.filter(slug=to_assign).exists():
+        if LowerSubcategory.objects.filter(slug=to_assign).exists():
             to_assign = str(self.category) + to_assign
 
         self.slug = to_assign
