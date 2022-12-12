@@ -21,19 +21,26 @@ class SubcategorySerializer(serializers.ModelSerializer):
 
     category = serializers.StringRelatedField()
 
+
 class LowerSubcategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = LowerSubcategory
         fields = ["subcategory", "name", "slug"]
 
-    subcategory = SubcategorySerializer(many=True)
+    subcategory = SubcategorySerializer()
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ["id", "name", "slug", "description",
-                  "category_image", "subcategories"]
+        fields = [
+            "id",
+            "name",
+            "slug",
+            "description",
+            "category_image",
+            "subcategories",
+        ]
 
     subcategories = SubcategorySerializer(many=True)
 
@@ -65,10 +72,7 @@ class ProductAttributeValueSerializer(serializers.ModelSerializer):
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Media
-        fields = ["product",
-                  "product_images",
-                  "alt_text",
-                  "is_feature"]
+        fields = ["product", "product_images", "alt_text", "is_feature"]
 
     product = serializers.StringRelatedField()
 
@@ -85,15 +89,24 @@ class StockSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ["id", "category", "subcategory", "product_type", "name",
-                  "slug",
-                  "description",
-                  "price",
-                  "flashsale_price",
-                  "flashsale",
-                  "is_onFlashsale",
-                  "weight",
-                  "in_stock", "product_stock", "attribute_value",  "product_images"]
+        fields = [
+            "id",
+            "category",
+            "subcategory",
+            "product_type",
+            "name",
+            "slug",
+            "description",
+            "price",
+            "flashsale_price",
+            "flashsale",
+            "is_onFlashsale",
+            "weight",
+            "in_stock",
+            "product_stock",
+            "attribute_value",
+            "product_images",
+        ]
 
     category = serializers.StringRelatedField()
     subcategory = serializers.StringRelatedField()
