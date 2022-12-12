@@ -19,15 +19,15 @@ class LowerSubcategorySerializer(serializers.ModelSerializer):
         model = LowerSubcategory
         fields = ["id", "subcategory", "name", "slug"]
 
-    # subcategory = serializers.StringRelatedField()
+    subcategory = serializers.StringRelatedField()
 
 class SubcategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Subcategory
-        fields = ["id", "category", "name", "slug", "main_subcategory"]
+        fields = ["id", "category", "name", "slug", "lowersubcategories"]
 
     category = serializers.StringRelatedField()
-    main_subcategory = LowerSubcategorySerializer(many=True)
+    lowersubcategories = LowerSubcategorySerializer(many=True)
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
