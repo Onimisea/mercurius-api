@@ -124,7 +124,7 @@ class LowerSubcategory(models.Model):
     subcategory = models.ForeignKey(
         Subcategory,
         verbose_name="Main Subcategory",
-        related_name="main_subcategories",
+        related_name="lowersubcategories",
         on_delete=models.PROTECT,
     )
 
