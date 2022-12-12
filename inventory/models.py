@@ -46,7 +46,7 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["-created_at"]
+        ordering = ["created_at"]
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
 
@@ -102,7 +102,7 @@ class Subcategory(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["-created_at"]
+        ordering = ["created_at"]
         verbose_name = _("Subcategory")
         verbose_name_plural = _("Subcategories")
 
@@ -155,7 +155,7 @@ class LowerSubcategory(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["-created_at"]
+        ordering = ["created_at"]
         verbose_name = _("Lower Subcategory")
         verbose_name_plural = _("Lower Subcategories")
 
