@@ -13,22 +13,20 @@ from .models import (
     Subcategory,
 )
 
+class LowerSubcategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LowerSubcategory
+        fields = ["id", "subcategory", "name", "slug"]
+
+    subcategory = serializers.StringRelatedField()
 
 class SubcategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Subcategory
-        fields = ["category", "name", "slug"]
+        fields = ["id", "category", "name", "slug"]
 
     category = serializers.StringRelatedField()
-
-
-class LowerSubcategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = LowerSubcategory
-        fields = ["subcategory", "name", "slug"]
-
-    subcategory = SubcategorySerializer()
-
+    main_subcategory = LowerSubcategorySerializer(many=True)
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
