@@ -1,9 +1,9 @@
-from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
     PermissionsMixin,
 )
+from django.db import models
 from django.utils import timezone
 
 
@@ -15,8 +15,8 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError("Users must have an email address")
 
-        if not phone:
-            raise ValueError("Users must have a phone number")
+        # if not phone:
+        #     raise ValueError("Users must have a phone number")
         
         email = self.normalize_email(email)
 
@@ -81,7 +81,7 @@ class UserManager(BaseUserManager):
     # def create_superuser(self, fullname, email, phone, password, **extra_fields):
     #     user = self._create_user(fullname, email, phone, password, True, True, **extra_fields)
     #     return user
-    pass
+    # pass
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -89,7 +89,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     email = models.EmailField(max_length=60, verbose_name="Email Address", unique=True)
     
-    phone = models.CharField(max_length=11, verbose_name="11-digit Phone Number", null=False, blank=False, unique=True)
+    phone = models.CharField(max_length=11, verbose_name="11-digit Phone Number", null=True, blank=True, unique=False)
     
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -100,7 +100,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
-    REQUIRED_FIELDS = ['fullname', 'phone']
+    REQUIRED_FIELDS = ['fullname']
 
     objects = UserManager()
 
