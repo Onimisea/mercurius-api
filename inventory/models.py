@@ -46,7 +46,7 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["created_at"]
+        ordering = ["-created_at"]
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
 
@@ -112,12 +112,12 @@ class Subcategory(models.Model):
     def get_absolute_url(self):
         return reverse("model_detail", kwargs={"slug": self.slug})
 
-    def save(self, *args, **kwargs):
-        to_assign = slugify(self.name)
-        to_assign = str(self.category.slug) + "-" + to_assign
-        self.slug = to_assign
+    # def save(self, *args, **kwargs):
+    #     to_assign = slugify(self.name)
+    #     to_assign = str(self.category.slug) + "-" + to_assign
+    #     self.slug = to_assign
 
-        super().save(*args, **kwargs)
+    #     super().save(*args, **kwargs)
 
 
 class LowerSubcategory(models.Model):
@@ -165,12 +165,12 @@ class LowerSubcategory(models.Model):
     def get_absolute_url(self):
         return reverse("model_detail", kwargs={"slug": self.slug})
 
-    def save(self, *args, **kwargs):
-        to_assign = slugify(self.name)
-        to_assign = str(self.subcategory.slug) + "-" + to_assign
-        self.slug = to_assign
+    # def save(self, *args, **kwargs):
+    #     to_assign = slugify(self.name)
+    #     to_assign = str(self.subcategory.slug) + "-" + to_assign
+    #     self.slug = to_assign
 
-        super().save(*args, **kwargs)
+    #     super().save(*args, **kwargs)
 
 
 class ProductType(models.Model):
