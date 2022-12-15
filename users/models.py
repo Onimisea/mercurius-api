@@ -15,8 +15,8 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError("Users must have an email address")
 
-        # if not phone:
-        #     raise ValueError("Users must have a phone number")
+        if not phone:
+            raise ValueError("Users must have a phone number")
         
         email = self.normalize_email(email)
 
@@ -100,7 +100,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
-    REQUIRED_FIELDS = ['fullname']
+    REQUIRED_FIELDS = ['fullname', 'phone']
 
     objects = UserManager()
 
