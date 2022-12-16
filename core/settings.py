@@ -23,9 +23,9 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["mercurius-api-production.up.railway.app", "https://mercurius-production.up.railway.app"]
+ALLOWED_HOSTS = ["mercurius-api-production.up.railway.app", "mercurius-production.up.railway.app", "localhost:3000", "127.0.0.1:3000",  "localhost:8000", "127.0.0.1:8000"]
 
-CSRF_TRUSTED_ORIGINS = ["https://mercurius-api-production.up.railway.app", "https://mercurius-production.up.railway.app"]
+CSRF_TRUSTED_ORIGINS = ["mercurius-api-production.up.railway.app", "mercurius-production.up.railway.app", "localhost:3000", "127.0.0.1:3000",  "localhost:8000", "127.0.0.1:8000"]
 
 # Application definition
 
@@ -63,7 +63,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    "http://127.0.0.1:3000", "http://localhost:8000",
+    "http://127.0.0.1:8000",
     "https://mercurius-api-production.up.railway.app",
     "https://mercurius-production.up.railway.app",
 ]
