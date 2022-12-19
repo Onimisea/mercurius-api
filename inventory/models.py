@@ -277,7 +277,7 @@ class Product(models.Model):
     attribute_value = models.ManyToManyField(
         ProductAttributeValue,
         verbose_name="Product Attribute Values",
-        related_name="product_attribute_value", null=True, blank=True
+        related_name="product_attribute_value", blank=True
     )
 
     flashsale = models.IntegerField(
