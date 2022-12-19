@@ -204,7 +204,7 @@ class ProductAttribute(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.product_type} : {self.name}"
 
 
 class ProductAttributeValue(models.Model):
@@ -224,7 +224,7 @@ class ProductAttributeValue(models.Model):
     )
 
     def __str__(self):
-        return f"{self.value}"
+        return f"{self.attribute} : {self.value}"
 
 
 class Product(models.Model):
