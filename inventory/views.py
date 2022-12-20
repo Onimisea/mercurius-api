@@ -90,7 +90,7 @@ class AllFlashsaleView(ListCreateAPIView):
     serializer_class = FlashsaleCtrlSerializer
 
 
-class AllFlashsaleProductsView(ListCreateAPIView):
+class DisableFlashsalesView(ListCreateAPIView):
     queryset = Product.objects.all().filter(is_onFlashsale=True)
     serializer_class = ProductSerializer
 
@@ -102,3 +102,16 @@ class AllFlashsaleProductsView(ListCreateAPIView):
         response = {"Is flashsale disabled?": "Yes"}
 
         return Response(data=response, status=status.HTTP_200_OK)
+
+
+class AllFlashsaleProductsView(ListCreateAPIView):
+    queryset = Product.objects.all().filter(is_onFlashsale=True)
+    serializer_class = ProductSerializer
+    
+    def get(self, request, *args, **kwargs):
+        queryset = Product.objects.all().filter(is_onFlashsale=True)
+        serializer = ProductSerializer(queryset, many=True)
+        response = random.sample(serializer.data, len(serializer.data))
+        return Response(data=response, status=status.HTTP_200_OK)
+
+

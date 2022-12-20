@@ -11,6 +11,7 @@ urlpatterns = [
     path("scc/", views.AllLowerSubcategoryView.as_view()),
     path("scc/<str:slug>/", views.SingleLowerSubcategoryView.as_view()),
     path("f/", views.AllFlashsaleView.as_view()),
-    path("f/disable/", views.AllFlashsaleProductsView.as_view()),
+    path("f/all/", views.AllFlashsaleProductsView.as_view()),
+    path("f/disable/", views.DisableFlashsalesView.as_view()),
     path("<str:slug>/", views.SingleProductView.as_view()),
 ]
