@@ -88,6 +88,13 @@ class Subcategory(models.Model):
         help_text=_("format: required, max_length=100"),
     )
 
+    description = models.TextField(
+        verbose_name=_("Subcategory Description"),
+        help_text=_("format: optional"),
+        null=True,
+        blank=True, default=""
+    )
+
     slug = models.SlugField(
         max_length=100,
         null=False,
