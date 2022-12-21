@@ -36,7 +36,11 @@ class Category(models.Model):
     )
 
     category_image = CloudinaryField(
-        "Image", overwrite=True, format="jpg", folder="Category Backgrounds"
+        "Category Banner Image", overwrite=True, format="jpg", folder="Category Backgrounds"
+    )
+
+    category_nav_image = CloudinaryField(
+        "Category Nav Image", overwrite=True, format="jpg", folder="Category Nav Images", default=""
     )
 
     is_active = models.BooleanField(default=True)
@@ -181,6 +185,11 @@ class ProductType(models.Model):
         blank=False,
         verbose_name=_("Product Type"),
         help_text=_("format: required, unique, max_length-100"),
+    )
+
+    
+    product_type_icon = CloudinaryField(
+        "Product Type Icon", overwrite=True, format="png", folder="Product Type Icons", default=""
     )
 
     def __str__(self):
