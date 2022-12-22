@@ -27,7 +27,7 @@ class SubcategorySerializer(serializers.ModelSerializer):
         fields = ["id", "category", "name", "description", "slug", "lowersubcategories"]
 
     category = serializers.StringRelatedField()
-    lowersubcategories = serializers.StringRelatedField(many=True)
+    lowersubcategories = LowerSubcategorySerializer()
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
