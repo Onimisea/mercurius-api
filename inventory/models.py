@@ -182,7 +182,7 @@ class LowerSubcategory(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["-created_at"]
+        ordering = ["created_at"]
         verbose_name = _("Lower Subcategory")
         verbose_name_plural = _("Lower Subcategories")
 
