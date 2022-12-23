@@ -101,7 +101,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "id",
             "category",
             "subcategory",
-            "product_lowersubcategory",
+            "lowersubcategory",
             "product_type",
             "name",
             "slug",
@@ -120,7 +120,7 @@ class ProductSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField()
     subcategory = serializers.StringRelatedField()
     # subcategory = SubcategorySerializer()
-    product_lowersubcategory = serializers.StringRelatedField()
+    lowersubcategory = serializers.StringRelatedField()
     # product_lowersubcategory = LowerSubcategorySerializer(many=True)
     product_type = ProductTypeSerializer()
     product_stock = StockSerializer()

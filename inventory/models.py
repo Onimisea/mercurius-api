@@ -276,8 +276,7 @@ class Product(models.Model):
     lowersubcategory = models.ForeignKey(
         LowerSubcategory,
         verbose_name="Lower Subcategory",
-        related_name="product_lowersubcategory",
-        default="",
+        related_name="lowersubcategory",
         on_delete=models.PROTECT,
     )
 
