@@ -21,13 +21,22 @@ class LowerSubcategorySerializer(serializers.ModelSerializer):
 
     subcategory = serializers.StringRelatedField()
 
+
 class SubcategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Subcategory
-        fields = ["id", "category", "name", "description", "slug", "lowersubcategories"]
+        fields = [
+            "id",
+            "category",
+            "name",
+            "description",
+            "slug",
+            "lowersubcategories",
+        ]
 
     category = serializers.StringRelatedField()
     lowersubcategories = LowerSubcategorySerializer(many=True)
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -110,8 +119,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     category = serializers.StringRelatedField()
     subcategory = SubcategorySerializer()
-    product_lowersubcategory = serializers.StringRelatedField()
-    # product_lowersubcategory = LowerSubcategorySerializer()
+    # product_lowersubcategory = serializers.StringRelatedField()
+    product_lowersubcategory = LowerSubcategorySerializer()
     product_type = ProductTypeSerializer()
     product_stock = StockSerializer()
     # product_stock = serializers.StringRelatedField()

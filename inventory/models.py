@@ -187,7 +187,7 @@ class LowerSubcategory(models.Model):
         verbose_name_plural = _("Lower Subcategories")
 
     def __str__(self):
-        return self.name
+        return f"{self.subcategory} {self.name}"
 
     def get_absolute_url(self):
         return reverse("model_detail", kwargs={"slug": self.slug})
