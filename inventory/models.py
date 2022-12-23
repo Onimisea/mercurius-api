@@ -167,13 +167,13 @@ class LowerSubcategory(models.Model):
         ),
     )
 
-    # lowersubcategory_icon = CloudinaryField(
-    #     "Lower Subcategory Icon",
-    #     overwrite=True,
-    #     format="png",
-    #     folder="Product Type Icons",
-    #     default="",
-    # )
+    lowersubcategory_icon = CloudinaryField(
+        "Lower Subcategory Icon",
+        overwrite=True,
+        format="png",
+        folder="Product Type Icons",
+        default="",
+    )
 
     is_active = models.BooleanField(default=True)
 
