@@ -210,9 +210,9 @@ class ProductType(models.Model):
         help_text=_("format: required, unique, max_length-100"),
     )
 
-    product_type_icon = CloudinaryField(
-        "Product Type Icon", overwrite=True, format="png", folder="Product Type Icons", default=""
-    )
+    # product_type_icon = CloudinaryField(
+    #     "Product Type Icon", overwrite=True, format="png", folder="Product Type Icons", default=""
+    # )
 
     def __str__(self):
         return self.name
