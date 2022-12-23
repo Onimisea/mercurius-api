@@ -17,7 +17,7 @@ from .models import (
 class LowerSubcategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = LowerSubcategory
-        fields = ["id", "subcategory", "name", "slug"]
+        fields = "__all__"
 
     subcategory = serializers.StringRelatedField()
 
@@ -92,6 +92,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "id",
             "category",
             "subcategory",
+            "product_lowersubcategory",
             "product_type",
             "name",
             "slug",
@@ -109,6 +110,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     category = serializers.StringRelatedField()
     subcategory = SubcategorySerializer()
+    product_lowersubcategory = serializers.StringRelatedField()
+    # product_lowersubcategory = LowerSubcategorySerializer()
     product_type = ProductTypeSerializer()
     product_stock = StockSerializer()
     # product_stock = serializers.StringRelatedField()

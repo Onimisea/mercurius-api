@@ -36,11 +36,18 @@ class Category(models.Model):
     )
 
     category_image = CloudinaryField(
-        "Category Banner Image", overwrite=True, format="jpg", folder="Category Backgrounds"
+        "Category Banner Image",
+        overwrite=True,
+        format="jpg",
+        folder="Category Backgrounds",
     )
 
     category_nav_image = CloudinaryField(
-        "Category Nav Image", overwrite=True, format="jpg", folder="Category Nav Images", default=""
+        "Category Nav Image",
+        overwrite=True,
+        format="jpg",
+        folder="Category Nav Images",
+        default="",
     )
 
     is_active = models.BooleanField(default=True)
@@ -92,7 +99,8 @@ class Subcategory(models.Model):
         verbose_name=_("Subcategory Description"),
         help_text=_("format: optional"),
         null=True,
-        blank=True, default=""
+        blank=True,
+        default="",
     )
 
     slug = models.SlugField(
@@ -159,6 +167,14 @@ class LowerSubcategory(models.Model):
         ),
     )
 
+    # lowersubcategory_icon = CloudinaryField(
+    #     "Lower Subcategory Icon",
+    #     overwrite=True,
+    #     format="png",
+    #     folder="Product Type Icons",
+    #     default="",
+    # )
+
     is_active = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -194,7 +210,6 @@ class ProductType(models.Model):
         help_text=_("format: required, unique, max_length-100"),
     )
 
-    
     product_type_icon = CloudinaryField(
         "Product Type Icon", overwrite=True, format="png", folder="Product Type Icons", default=""
     )
@@ -258,6 +273,14 @@ class Product(models.Model):
         on_delete=models.PROTECT,
     )
 
+    lowersubcategory = models.ForeignKey(
+        LowerSubcategory,
+        verbose_name="Lower Subcategory",
+        related_name="product_lowersubcategory",
+        default="",
+        on_delete=models.PROTECT,
+    )
+
     product_type = models.ForeignKey(
         ProductType, related_name="product_type", on_delete=models.PROTECT
     )
@@ -293,7 +316,8 @@ class Product(models.Model):
     attribute_value = models.ManyToManyField(
         ProductAttributeValue,
         verbose_name="Product Attribute Values",
-        related_name="product_attribute_value", blank=True
+        related_name="product_attribute_value",
+        blank=True,
     )
 
     flashsale = models.IntegerField(
