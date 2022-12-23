@@ -118,8 +118,8 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
 
     category = serializers.StringRelatedField()
-    subcategory = serializers.StringRelatedField()
-    # subcategory = SubcategorySerializer()
+    # subcategory = serializers.StringRelatedField()
+    subcategory = SubcategorySerializer()
     lowersubcategory = LowerSubcategorySerializer()
     # lowersubcategory = serializers.StringRelatedField()
     # product_lowersubcategory = LowerSubcategorySerializer(many=True)
