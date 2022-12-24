@@ -423,16 +423,18 @@ class Product(models.Model):
 
     @property
     def unique_slug(self):
-        lengthOfName = len(self.name)
         randomUniques = ""
 
         try:
-            randomUniqueNums = random.sample(range(1, lengthOfName), 5)
+            randomUniqueNums = random.sample(range(1, len(self.name)), 5)
         except ValueError:
             print("The sample is larger than the sequence")
-
-        for num in randomUniqueNums:
-            randomUniques = randomUniques + str(num)
+        
+        if randomUniqueNums:
+            for num in randomUniqueNums:
+                randomUniques = randomUniques + str(num)
+        else:
+            print("No unique random numbers")
 
         self.slug = self.slug + "-" + randomUniques
 
