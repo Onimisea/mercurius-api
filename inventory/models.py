@@ -1,3 +1,5 @@
+import random
+
 from cloudinary.models import CloudinaryField
 from django.db import models
 from django.template.defaultfilters import slugify
@@ -407,9 +409,6 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):
-        return reverse("model_detail", kwargs={"slug": self.slug})
-
     @property
     def flashsale_price(self):
         if self.is_onFlashsale:
@@ -418,6 +417,26 @@ class Product(models.Model):
             return int((self.price) - discount)
         else:
             return int(self.price)
+
+    @property
+    def get_unique_slug(self):
+        lengthOfName = len(self.name)
+        randomUniques = ""
+
+        try:
+            randomUniqueNums = random.sample(range(1, lengthOfName), 5)
+        except ValueError:
+            print("The sample is larger than the sequence")
+
+        for num in randomUniqueNums:
+            randomUniques = randomUniques + str(num)
+
+        self.slug = self.slug + "-" + randomUniques
+
+        return self.slug
+
+    def get_absolute_url(self):
+        return reverse("model_detail", kwargs={"slug": self.slug})
 
 
 class Media(models.Model):
