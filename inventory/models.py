@@ -214,6 +214,9 @@ class ProductType(models.Model):
     #     "Product Type Icon", overwrite=True, format="png", folder="Product Type Icons", default=""
     # )
 
+    class Meta:
+        ordering = ["id"]
+
     def __str__(self):
         return self.name
 
