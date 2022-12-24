@@ -408,7 +408,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def get_absolute_url(self):
         return reverse("model_detail", kwargs={"slug": self.slug})
 
@@ -421,15 +421,10 @@ class Product(models.Model):
         else:
             return int(self.price)
 
-    @property
-    def unique_slug(self):
+    def save(self, *args, **kwargs):
         randomUniques = ""
+        randomUniqueNums = random.sample(range(1, len(self.name)), 5)
 
-        try:
-            randomUniqueNums = random.sample(range(1, len(self.name)), 5)
-        except ValueError:
-            print("The sample is larger than the sequence")
-        
         if randomUniqueNums:
             for num in randomUniqueNums:
                 randomUniques = randomUniques + str(num)
@@ -438,20 +433,14 @@ class Product(models.Model):
 
         self.slug = self.slug + "-" + randomUniques
 
-        return self.slug
-    
-    def save(self, *args, **kwargs):
-        self.unique_slug()
-
         super().save(*args, **kwargs)
-    
+
     # def save(self, *args, **kwargs):
     #     to_assign = slugify(self.name)
     #     to_assign = str(self.subcategory.slug) + "-" + to_assign
     #     self.slug = to_assign
 
     #     super().save(*args, **kwargs)
-
 
 
 class Media(models.Model):
