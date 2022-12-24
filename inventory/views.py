@@ -4,8 +4,22 @@ from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
 
-from .models import Category, Subcategory, LowerSubcategory, FlashsaleCtrl, Product
-from .serializers import CategorySerializer, SubcategorySerializer, LowerSubcategorySerializer, FlashsaleCtrlSerializer, ProductSerializer
+from .models import (
+    Category,
+    FlashsaleCtrl,
+    LowerSubcategory,
+    Product,
+    ProductType,
+    Subcategory,
+)
+from .serializers import (
+    CategorySerializer,
+    FlashsaleCtrlSerializer,
+    LowerSubcategorySerializer,
+    ProductSerializer,
+    ProductTypeSerializer,
+    SubcategorySerializer,
+)
 
 # Create your views here.
 
@@ -113,5 +127,17 @@ class AllFlashsaleProductsView(ListCreateAPIView):
         serializer = ProductSerializer(queryset, many=True)
         response = random.sample(serializer.data, len(serializer.data))
         return Response(data=response, status=status.HTTP_200_OK)
+
+class AllProductTypes(ListCreateAPIView):
+    queryset = ProductType.objects.all()
+    serializer_class = ProductTypeSerializer
+    
+    def get(self, request, *args, **kwargs):
+        queryset = queryset = ProductType.objects.all()
+        serializer = ProductTypeSerializer(queryset, many=True)
+        # response = random.sample(serializer.data, len(serializer.data))
+        # response = random.sample(serializer.data, len(serializer.data))
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        # return Response(data=response, status=status.HTTP_200_OK)
 
 

@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path("", views.AllProductsView.as_view()),
     path("c/", views.AllCategoryView.as_view()),
+    path("pt/", views.AllProductTypes.as_view()),
     path("c/<str:slug>/", views.SingleCategoryView.as_view()),
     path("sc/", views.AllSubcategoryView.as_view()),
     path("sc/<str:slug>/", views.SingleSubcategoryView.as_view()),
