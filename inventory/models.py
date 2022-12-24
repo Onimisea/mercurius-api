@@ -408,6 +408,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse("model_detail", kwargs={"slug": self.slug})
 
     @property
     def flashsale_price(self):
@@ -419,7 +422,7 @@ class Product(models.Model):
             return int(self.price)
 
     @property
-    def get_unique_slug(self):
+    def unique_slug(self):
         lengthOfName = len(self.name)
         randomUniques = ""
 
@@ -434,9 +437,19 @@ class Product(models.Model):
         self.slug = self.slug + "-" + randomUniques
 
         return self.slug
+    
+    def save(self, *args, **kwargs):
+        self.unique_slug()
 
-    def get_absolute_url(self):
-        return reverse("model_detail", kwargs={"slug": self.slug})
+        super().save(*args, **kwargs)
+    
+    # def save(self, *args, **kwargs):
+    #     to_assign = slugify(self.name)
+    #     to_assign = str(self.subcategory.slug) + "-" + to_assign
+    #     self.slug = to_assign
+
+    #     super().save(*args, **kwargs)
+
 
 
 class Media(models.Model):
