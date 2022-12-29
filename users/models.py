@@ -5,6 +5,7 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from django.utils import timezone
+import datetime
 
 
 class UserManager(BaseUserManager):
@@ -90,6 +91,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=60, verbose_name="Email Address", unique=True)
     
     phone = models.CharField(max_length=11, verbose_name="11-digit Phone Number", null=True, blank=True, unique=False)
+
+    gender = models.CharField(default="", max_length=14, verbose_name="Gender", null=True, blank=True, unique=False)
+
+    dob = models.DateField(default=datetime.date.today, verbose_name="Date of Birth", null=True, blank=True, unique=False)
     
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
