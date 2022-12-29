@@ -73,33 +73,6 @@ class LoginUserAPIView(generics.GenericAPIView):
         return Response(data=content, status=status.HTTP_200_OK)
 
 
-class DeleteUserAPIView(generics.DestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = CreateUserSerializer
-    lookup_field = "id"
-    # permission_classes = [permissions.IsAdminUser]
-
-    def delete(self, request, *args, **kwargs):
-        print("Onimisea's token ", request.user)
-
-        return self.destroy(request, *args, **kwargs)
-
-    Response(
-        {"message": "User Deleted Successfully"}, status=status.HTTP_201_CREATED
-    )
-
-
-class UserListCreateAPIView(generics.ListCreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = CreateUserSerializer
-
-
-class UserDetailAPIView(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = CreateUserSerializer
-    lookup_field = "id"
-
-
 class VerifyUserAPIView(generics.GenericAPIView):
     queryset = User.objects.all()
     serializer_class = VerifyUserSerializer
@@ -128,10 +101,38 @@ class VerifyUserAPIView(generics.GenericAPIView):
             return Response(data=response, status=status.HTTP_200_OK)
 
 
-class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
+# class DeleteUserAPIView(generics.DestroyAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = CreateUserSerializer
+#     lookup_field = "id"
+#     # permission_classes = [permissions.IsAdminUser]
+
+#     def delete(self, request, *args, **kwargs):
+#         print("Onimisea's token ", request.user)
+
+#         return self.destroy(request, *args, **kwargs)
+
+#     Response(
+#         {"message": "User Deleted Successfully"}, status=status.HTTP_201_CREATED
+#     )
+
+
+class UserListAPIView(generics.ListAPIView):
     queryset = User.objects.all()
-    serializer_class = UpdateUserSerializer
+    serializer_class = CreateUserSerializer
+
+
+class UserDetailAPIView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = CreateUserSerializer
     lookup_field = "id"
+
+
+
+# class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UpdateUserSerializer
+#     lookup_field = "id"
 
     # permission_classes = [permissions.IsAuthenticated]
 
