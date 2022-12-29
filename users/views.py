@@ -128,9 +128,31 @@ class UserDetailAPIView(generics.RetrieveAPIView):
     lookup_field = "id"
 
 
-
-class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
+class UpdateUserAPIView(generics.GenericAPIView):
     queryset = User.objects.all()
     serializer_class = UpdateUserSerializer
-    lookup_field = "id"
+    # lookup_field = "id"
+
+    def put(self, request, pk):
+        profile = User.objects.get(pk=pk)
+        data = UpdateUserSerializer(instance=profile, data=request.data)
+        
+        if data.is_valid():
+            data.save()
+            response = {
+                "message": "Account Updated Successfully",
+                "account_info": data,
+            }
+
+            return Response(data=response, status=status.HTTP_200_OK)
+        else:
+            response = {
+                "error": "Account Update Failed. Try Again Later",
+            }
+            return Response(data=response, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+# class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UpdateUserSerializer
+#     lookup_field = "id"
 
