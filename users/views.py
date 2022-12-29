@@ -1,13 +1,17 @@
 # from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth import authenticate
-from rest_framework import generics, status
+from rest_framework import generics, permissions, status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
 
 from .models import User
-from .serializers import CreateUserSerializer, VerifyUserSerializer
+from .serializers import (
+    CreateUserSerializer,
+    UpdateUserSerializer,
+    VerifyUserSerializer,
+)
 
 
 class CreateUserAPIView(generics.CreateAPIView):
@@ -90,12 +94,6 @@ class UserListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = CreateUserSerializer
 
 
-class UserUpdateAPIView(generics.RetrieveUpdateAPIView):
-    queryset = User.objects.all()
-    serializer_class = CreateUserSerializer
-
-
-
 class UserDetailAPIView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = CreateUserSerializer
@@ -128,3 +126,16 @@ class VerifyUserAPIView(generics.GenericAPIView):
             }
 
             return Response(data=response, status=status.HTTP_200_OK)
+
+class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UpdateUserSerializer
+    lookup_field = "id"
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    # def get_queryset(self):
+    #     return User.objects.all().filter(email=self.request.user)
+
+
+
