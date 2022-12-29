@@ -131,10 +131,9 @@ class UserDetailAPIView(generics.RetrieveAPIView):
 class UpdateUserAPIView(generics.GenericAPIView):
     queryset = User.objects.all()
     serializer_class = UpdateUserSerializer
-    # lookup_field = "id"
 
     def put(self, request, pk):
-        profile = User.objects.get(pk=pk)
+        profile = User.objects.get(id=pk)
         data = UpdateUserSerializer(instance=profile, data=request.data)
         
         if data.is_valid():
