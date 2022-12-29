@@ -56,4 +56,4 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ["fullname", "email", "phone", "gender", "dob"]
