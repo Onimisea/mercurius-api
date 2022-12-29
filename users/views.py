@@ -127,15 +127,13 @@ class VerifyUserAPIView(generics.GenericAPIView):
 
             return Response(data=response, status=status.HTTP_200_OK)
 
+
 class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UpdateUserSerializer
     lookup_field = "id"
 
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     # def get_queryset(self):
     #     return User.objects.all().filter(email=self.request.user)
-
-
-
