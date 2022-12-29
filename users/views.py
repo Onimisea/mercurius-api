@@ -2,9 +2,10 @@
 from django.contrib.auth import authenticate
 from rest_framework import generics, permissions, status
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 from .models import User
 from .serializers import (
@@ -128,13 +129,14 @@ class UserDetailAPIView(generics.RetrieveAPIView):
     lookup_field = "id"
 
 
-class UpdateUserAPIView(generics.GenericAPIView):
+class UpdateUserAPIView(APIView):
     queryset = User.objects.all()
     serializer_class = UpdateUserSerializer
 
-    def put(self, request, pk):
-        profile = User.objects.get(id=pk)
-        data = UpdateUserSerializer(instance=profile, data=request.data)
+    def put(self, request:Request, user_id):
+        user = get_object_or_404(User, pk=user_id)
+        
+        data = self.serializer_class(instance=user, data=request.data)
         
         if data.is_valid():
             data.save()
