@@ -10,6 +10,8 @@ cloudinary.config(
     api_secret=config("CLOUDINARY_API_SECRET"),
 )
 
+DATE_FORMAT="%d/%m/%Y"
+DATE_INPUT_FORMATS=["%d/%m/%Y"]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
