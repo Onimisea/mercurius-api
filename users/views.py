@@ -129,12 +129,12 @@ class UserDetailAPIView(generics.RetrieveAPIView):
 
 
 
-# class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = UpdateUserSerializer
-#     lookup_field = "id"
+class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UpdateUserSerializer
+    lookup_field = "id"
 
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
-    # def get_queryset(self):
-    #     return User.objects.all().filter(email=self.request.user)
+    def get_queryset(self):
+        return User.objects.all().filter(email=self.request.user)
