@@ -134,7 +134,5 @@ class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = UpdateUserSerializer
     lookup_field = "id"
 
-    permission_classes = [permissions.IsAuthenticated]
-
     def get_queryset(self):
         return User.objects.all().filter(email=self.request.user)
