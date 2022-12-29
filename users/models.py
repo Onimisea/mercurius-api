@@ -45,46 +45,6 @@ class UserManager(BaseUserManager):
         return self.create_user(fullname=fullname, email=email, phone=phone, password=password, **extra_fields)
     
 
-    # def _create_user(
-    #     self, fullname, email, phone, password,  **extra_fields
-    # ):
-    #     if not fullname:
-    #         raise ValueError("Users must have a Firstname and Lastname")
-
-    #     if not email:
-    #         raise ValueError("Users must have an email address")
-
-    #     if not phone:
-    #         raise ValueError("Users must have a phone number")
-
-    #     now = timezone.now()
-    #     email = self.normalize_email(email)
-
-    #     user = self.model(
-    #         fullname=fullname,
-    #         email=email,
-    #         phone=phone,
-    #         is_staff=is_staff,
-    #         is_active=True,
-    #         is_superuser=is_superuser,
-    #         last_login=now,
-    #         date_joined=now,
-    #         **extra_fields
-    #     )
-
-    #     user.set_password(password)
-    #     user.save(using=self._db)
-    #     return user
-
-    # def create_user(self, fullname, email, phone, password, **extra_fields):
-    #     return self._create_user(fullname, email, phone, password, False, False, **extra_fields)
-
-    # def create_superuser(self, fullname, email, phone, password, **extra_fields):
-    #     user = self._create_user(fullname, email, phone, password, True, True, **extra_fields)
-    #     return user
-    # pass
-
-
 class User(AbstractBaseUser, PermissionsMixin):
     fullname = models.CharField(max_length=100, verbose_name="Firstname Lastname", null=False, blank=False)
     
