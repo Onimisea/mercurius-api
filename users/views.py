@@ -1,11 +1,11 @@
 # from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth import authenticate
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions, status
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, APIView
+from rest_framework.decorators import APIView, api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 
 from .models import User
 from .serializers import (
@@ -133,24 +133,25 @@ class UpdateUserAPIView(APIView):
     queryset = User.objects.all()
     serializer_class = UpdateUserSerializer
 
-    def put(self, request:Request, user_id):
-        user = get_object_or_404(User, pk=user_id)
+    def put(self, request:Request, *args, **kwargs):
+        user = request.user
         
         data = self.serializer_class(instance=user, data=request.data)
         
-        if data.is_valid():
-            data.save()
-            response = {
-                "message": "Account Updated Successfully",
-                "account_info": data,
-            }
+        print(user)
+        # if data.is_valid():
+        #     data.save()
+        #     response = {
+        #         "message": "Account Updated Successfully",
+        #         "account_info": data.data,
+        #     }
 
-            return Response(data=response, status=status.HTTP_200_OK)
-        else:
-            response = {
-                "error": "Account Update Failed. Try Again Later",
-            }
-            return Response(data=response, status=status.HTTP_406_NOT_ACCEPTABLE)
+        #     return Response(data=response, status=status.HTTP_200_OK)
+        # else:
+        #     response = {
+        #         "error": "Account Update Failed. Try Again Later",
+        #     }
+        #     return Response(data=response, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 # class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
 #     queryset = User.objects.all()
