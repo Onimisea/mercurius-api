@@ -134,6 +134,9 @@ class UpdateUserAPIView(APIView):
     serializer_class = UpdateUserSerializer
 
     def put(self, request, *args, **kwargs):
+        user_email = request.data.email
+        user = User.objects.get(email=user_email)
+        print(user)
         
         
         # data = self.serializer_class(instance=user, data=request.data)
