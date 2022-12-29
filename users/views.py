@@ -90,6 +90,12 @@ class UserListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = CreateUserSerializer
 
 
+class UserUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = CreateUserSerializer
+
+
+
 class UserDetailAPIView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = CreateUserSerializer
@@ -113,9 +119,12 @@ class VerifyUserAPIView(generics.GenericAPIView):
 
         if user:
             response = {
+                "id": user.id,
                 "fullname": user.fullname,
                 "email": user.email,
                 "phone": user.phone,
+                "gender": user.gender,
+                "dob": user.dob,
             }
 
             return Response(data=response, status=status.HTTP_200_OK)
