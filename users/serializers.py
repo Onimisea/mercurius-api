@@ -52,7 +52,6 @@ class UpdateUserSerializer(serializers.ModelSerializer):
     phone = serializers.CharField(max_length=11)
     gender = serializers.CharField(max_length=6)
     dob = serializers.DateField(format=f"%d/%m/%Y", input_formats=[f"%d/%m/%Y",])
-    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
