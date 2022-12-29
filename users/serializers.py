@@ -9,7 +9,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
     email = serializers.CharField(max_length=60)
     phone = serializers.CharField(max_length=11)
     gender = serializers.CharField(max_length=6)
-    dob = serializers.DateField(format="%d/%m/%Y", input_formats=["%d/%m/%Y"])
+    dob = serializers.DateField(format=["%d/%m/%Y"], input_formats=["%d/%m/%Y"])
     password = serializers.CharField(write_only=True)
 
     class Meta:
