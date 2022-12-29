@@ -133,12 +133,12 @@ class UpdateUserAPIView(APIView):
     queryset = User.objects.all()
     serializer_class = UpdateUserSerializer
 
-    def put(self, request:Request, *args, **kwargs):
-        user = request.user
+    def put(self, request, *args, **kwargs):
         
-        data = self.serializer_class(instance=user, data=request.data)
         
-        print(user)
+        # data = self.serializer_class(instance=user, data=request.data)
+        
+        print(request.data)
         # if data.is_valid():
         #     data.save()
         #     response = {
