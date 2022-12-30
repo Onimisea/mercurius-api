@@ -171,7 +171,7 @@ class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
 
             response = {
                 "message": "Account Updated Successfully",
-                "account_info": user_data.data,
+                "account_info": user_data,
             }
 
             return Response(data=response, status=status.HTTP_200_OK)
