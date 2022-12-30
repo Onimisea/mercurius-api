@@ -164,17 +164,11 @@ class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
     lookup_field = "id"
 
     def put(self, request, *args, **kwargs):
-        user_data = self.serializer_class(instance=User, data=request.data)
-        
-        if user_data.is_valid():
-            print(user_data)
+        response = {
+            "message": "Account Updated Successfully",
+        }
 
-            response = {
-                "message": "Account Updated Successfully",
-                "account_info": user_data,
-            }
-
-            return Response(data=response, status=status.HTTP_200_OK)
+        return Response(data=response, status=status.HTTP_200_OK)
         
         
     response = {
