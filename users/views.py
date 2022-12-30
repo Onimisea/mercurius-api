@@ -158,10 +158,21 @@ class UserDetailAPIView(generics.RetrieveAPIView):
         #     }
         #     return Response(data=response, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UpdateUserSerializer
-    lookup_field = "id"
+@api_view(http_method_names=["PUT"])
+def UpdateUserAPIView(request:Request, pk):
+    user = get_object_or_404(User, pk=pk)
+    data = request.data
+    serializer = UpdateUserSerializer(instance=user, data=data)
 
-    Response(data={"message": "Account Updated Successfully"}, status=status.HTTP_200_OK)
+    if serializer.is_valid():
+        serializer.save()
+
+        response = {
+            "message": "Account Updated Successfully",
+            "data": serializer.data
+        }
+
+        return Response(data=response, status=status.HTTP_200_OK)
     
+
+    return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
