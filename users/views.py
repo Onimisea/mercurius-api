@@ -165,14 +165,16 @@ class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
 
     def put(self, request, *args, **kwargs):
         user_data = self.serializer_class(instance=User, data=request.data)
-        print(user_data)
+        
+        if user_data.is_valid():
+            print(user_data)
 
-        response = {
-            "message": "Account Updated Successfully",
-            "account_info": user_data.data,
-        }
+            response = {
+                "message": "Account Updated Successfully",
+                "account_info": user_data.data,
+            }
 
-        return Response(data=response, status=status.HTTP_200_OK)
+            return Response(data=response, status=status.HTTP_200_OK)
         
         
     response = {
