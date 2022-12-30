@@ -129,18 +129,18 @@ class UserDetailAPIView(generics.RetrieveAPIView):
     lookup_field = "id"
 
 
-class UpdateUserAPIView(APIView):
-    queryset = User.objects.all()
-    serializer_class = UpdateUserSerializer
+# class UpdateUserAPIView(APIView):
+#     queryset = User.objects.all()
+#     serializer_class = UpdateUserSerializer
 
-    def put(self, request, *args, **kwargs):
-        user_email = request.GET['email']
-        # user_email = self.serializer_class(instance=User, data=request.data)
-        user = User.objects.get(email=user_email)
-        user_data = self.serializer_class(instance=user)
-        print(user_email)
+#     def put(self, request, *args, **kwargs):
+#         user_email = request.GET['email']
+#         # user_email = self.serializer_class(instance=User, data=request.data)
+#         user = User.objects.get(email=user_email)
+#         user_data = self.serializer_class(instance=user)
+#         print(user_email)
         
-        return Response(status=status.HTTP_200_OK)
+#         return Response(status=status.HTTP_200_OK)
         # data = self.serializer_class(instance=user, data=request.data)
         
         # print(request.data)
@@ -158,8 +158,26 @@ class UpdateUserAPIView(APIView):
         #     }
         #     return Response(data=response, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-# class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = UpdateUserSerializer
-#     lookup_field = "id"
+class UpdateUserAPIView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UpdateUserSerializer
+    lookup_field = "id"
+
+    def put(self, request, *args, **kwargs):
+        user_data = self.serializer_class(instance=User, data=request.data)
+        print(user_data)
+
+        response = {
+            "message": "Account Updated Successfully",
+            "account_info": user_data.data,
+        }
+
+        return Response(data=response, status=status.HTTP_200_OK)
+        
+        
+    response = {
+        "error": "Account Update Failed. Try Again Later",
+    }
+    
+    # return Response(data=response, status=status.HTTP_406_NOT_ACCEPTABLE)
 
