@@ -50,7 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     email = models.EmailField(max_length=60, verbose_name="Email Address", unique=True)
     
-    phone = models.CharField(max_length=11, verbose_name="11-digit Phone Number", null=True, blank=True, unique=False)
+    phone = models.CharField(max_length=15, verbose_name="11-digit Phone Number", null=True, blank=True, unique=False)
 
     gender = models.CharField(default="", max_length=14, verbose_name="Gender", null=True, blank=True, unique=False)
 

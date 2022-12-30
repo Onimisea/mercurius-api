@@ -168,7 +168,7 @@ def UpdateUserAPIView(request:Request, pk):
         serializer.save()
 
         response = {
-            "message": "Account Updated Successfully",
+            "success": "Account Updated Successfully",
             "data": serializer.data
         }
 
