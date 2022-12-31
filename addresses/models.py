@@ -6,8 +6,8 @@ from users.models import User
 # Create your models here.
 
 class Address(models.Model):
-  user = models.ForeignKey(User, verbose_name=_("User's Address"),
-        related_name="user_address",
+  user = models.ForeignKey(User, verbose_name=_("User"),
+        related_name="user",
         on_delete=models.PROTECT,)
   
   house_no = models.IntegerField(default=0, null=False, blank=False, unique=False, verbose_name=_("House Number"))
