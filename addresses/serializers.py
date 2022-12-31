@@ -16,11 +16,13 @@ class AddressSerializer(serializers.ModelSerializer):
     user = UpdateUserSerializer()
     
     def update(self, instance, validated_data):
-        instance.fullname = validated_data.get('fullname', instance.fullname)
-        instance.email = validated_data.get('email', instance.email)
-        instance.phone = validated_data.get('phone', instance.phone)
-        instance.gender = validated_data.get('gender', instance.gender)
-        instance.dob = validated_data.get('dob', instance.dob)
+        instance.house_no = validated_data.get('house_no', instance.house_no)
+        instance.street_name = validated_data.get('street_name', instance.street_name)
+        instance.bus_stop = validated_data.get('bus_stop', instance.bus_stop)
+        instance.lga = validated_data.get('lga', instance.lga)
+        instance.postal_code = validated_data.get('postal_code', instance.postal_code)
+        instance.state = validated_data.get('state', instance.state)
+        instance.country = validated_data.get('country', instance.country)
 
         instance.save()
 
