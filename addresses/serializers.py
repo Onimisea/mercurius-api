@@ -2,6 +2,8 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import ValidationError
 
+from users.serializers import UpdateUserSerializer
+
 from .models import Address
 
 
@@ -9,6 +11,20 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = "__all__"
+    
+    # user = serializers.StringRelatedField()
+    user = UpdateUserSerializer()
+    
+    def update(self, instance, validated_data):
+        instance.fullname = validated_data.get('fullname', instance.fullname)
+        instance.email = validated_data.get('email', instance.email)
+        instance.phone = validated_data.get('phone', instance.phone)
+        instance.gender = validated_data.get('gender', instance.gender)
+        instance.dob = validated_data.get('dob', instance.dob)
+
+        instance.save()
+
+        return instance
 
 
 # class UpdateUserSerializer(serializers.ModelSerializer):
@@ -22,13 +38,13 @@ class AddressSerializer(serializers.ModelSerializer):
 #         model = User
 #         fields = ["fullname", "email", "phone", "gender", "dob"]
     
-#     def update(self, instance, validated_data):
-#         instance.fullname = validated_data.get('fullname', instance.fullname)
-#         instance.email = validated_data.get('email', instance.email)
-#         instance.phone = validated_data.get('phone', instance.phone)
-#         instance.gender = validated_data.get('gender', instance.gender)
-#         instance.dob = validated_data.get('dob', instance.dob)
+    # def update(self, instance, validated_data):
+    #     instance.fullname = validated_data.get('fullname', instance.fullname)
+    #     instance.email = validated_data.get('email', instance.email)
+    #     instance.phone = validated_data.get('phone', instance.phone)
+    #     instance.gender = validated_data.get('gender', instance.gender)
+    #     instance.dob = validated_data.get('dob', instance.dob)
 
-#         instance.save()
+    #     instance.save()
 
-#         return instance
+    #     return instance
