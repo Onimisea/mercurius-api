@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Local Apps
     "api",
+    "addresses",
     "users",
     "inventory",
     "webhooks",

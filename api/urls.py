@@ -8,6 +8,7 @@ from . import views
 urlpatterns = [
     path("auth/", obtain_auth_token),
     path("", views.api_home),
+    path("addresses/", include("addresses.urls")),
     path("users/", include("users.urls")),
     path("inventory/", include("inventory.urls")),
     path("webhooks/", include("webhooks.urls")),
