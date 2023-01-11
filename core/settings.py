@@ -31,8 +31,6 @@ ALLOWED_HOSTS = [
     "127.0.0.1:3000",
     "localhost:8000",
     "127.0.0.1:8000",
-    "localhost",
-    "aa21-102-89-46-210.eu.ngrok.io",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -42,7 +40,6 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
-    "https://aa21-102-89-46-210.eu.ngrok.io",
 ]
 
 # Application definition
