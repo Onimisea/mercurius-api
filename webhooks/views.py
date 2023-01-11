@@ -19,7 +19,7 @@ def webhook(request):
 
 
 @csrf_exempt
-def WebhookAPIView(request):
+def PaystackWebhookAPIView(request):
     if request.method == "POST":
         print("Data received from Webhook is: ", request.body)
         response = {
