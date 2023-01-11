@@ -1,14 +1,19 @@
-# from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions, status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import APIView, api_view
+from rest_framework.permissions import (
+    IsAdminUser,
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
 from rest_framework.request import Request
 from rest_framework.response import Response
 
 from .models import User
 from .serializers import (
+    ChangePasswordSerializer,
     CreateUserSerializer,
     UpdateUserSerializer,
     VerifyUserSerializer,
@@ -51,7 +56,7 @@ class LoginUserAPIView(generics.GenericAPIView):
         if user is not None:
             if Token.objects.filter(user=user).exists():
                 response = {
-                    "message": "Login Successful",
+                    "success": "Login Successful",
                     "token": user.auth_token.key,
                 }
                 return Response(data=response, status=status.HTTP_200_OK)
@@ -65,7 +70,7 @@ class LoginUserAPIView(generics.GenericAPIView):
 
         return Response(
             data={"error": "Invalid email or password"},
-            status=status.HTTP_406_NOT_ACCEPTABLE,
+            status=status.HTTP_408_REQUEST_TIMEOUT,
         )
 
     def get(self, request: Request):
@@ -139,27 +144,29 @@ class UserDetailAPIView(generics.RetrieveAPIView):
 #         user = User.objects.get(email=user_email)
 #         user_data = self.serializer_class(instance=user)
 #         print(user_email)
-        
-#         return Response(status=status.HTTP_200_OK)
-        # data = self.serializer_class(instance=user, data=request.data)
-        
-        # print(request.data)
-        # if data.is_valid():
-        #     data.save()
-        #     response = {
-        #         "message": "Account Updated Successfully",
-        #         "account_info": data.data,
-        #     }
 
-        #     return Response(data=response, status=status.HTTP_200_OK)
-        # else:
-        #     response = {
-        #         "error": "Account Update Failed. Try Again Later",
-        #     }
-        #     return Response(data=response, status=status.HTTP_406_NOT_ACCEPTABLE)
+#         return Response(status=status.HTTP_200_OK)
+# data = self.serializer_class(instance=user, data=request.data)
+
+# print(request.data)
+# if data.is_valid():
+#     data.save()
+#     response = {
+#         "message": "Account Updated Successfully",
+#         "account_info": data.data,
+#     }
+
+#     return Response(data=response, status=status.HTTP_200_OK)
+# else:
+#     response = {
+#         "error": "Account Update Failed. Try Again Later",
+#     }
+#     return Response(data=response, status=status.HTTP_406_NOT_ACCEPTABLE)
+
 
 @api_view(http_method_names=["PUT"])
-def UpdateUserAPIView(request:Request, pk):
+def UpdateUserAPIView(request: Request, pk):
+    permission_classes = (IsAuthenticated,)
     user = get_object_or_404(User, pk=pk)
     data = request.data
     serializer = UpdateUserSerializer(instance=user, data=data)
@@ -169,10 +176,30 @@ def UpdateUserAPIView(request:Request, pk):
 
         response = {
             "success": "Account Updated Successfully",
-            "data": serializer.data
+            "data": serializer.data,
         }
 
         return Response(data=response, status=status.HTTP_200_OK)
-    
+
+    return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(http_method_names=["PUT"])
+def ChangePasswordAPIView(request: Request, pk):
+    user = get_object_or_404(User, pk=pk)
+    data = request.data
+    serializer = ChangePasswordSerializer(instance=user, data=data)
+    permission_classes = (IsAuthenticated,)
+    # print(request.user)
+
+    if serializer.is_valid():
+        serializer.save()
+
+        response = {
+            "success": "Password Changed Successfully",
+            "data": serializer.data,
+        }
+
+        return Response(data=response, status=status.HTTP_200_OK)
 
     return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)

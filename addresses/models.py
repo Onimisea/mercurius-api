@@ -10,7 +10,7 @@ class Address(models.Model):
         related_name="user",
         on_delete=models.PROTECT,)
   
-  house_no = models.IntegerField(default=0, null=False, blank=False, unique=False, verbose_name=_("House Number"))
+  house_no = models.CharField(max_length=5, null=False, blank=False, unique=False, verbose_name=_("House Number"))
 
   street_name = models.CharField(max_length=500, null=False, blank=False, unique=False, verbose_name=_("Street Name"))
 
@@ -31,7 +31,7 @@ class Address(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   class Meta:
-    ordering = ["added_on"]
+    ordering = ["-added_on"]
     verbose_name = _("Address")
     verbose_name_plural = _("Addresses")
   

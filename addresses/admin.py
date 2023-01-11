@@ -7,6 +7,7 @@ from .models import Address
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     list_display = [
+        "id",
         "user",
         "street_name",
         "lga",
